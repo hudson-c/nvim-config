@@ -7,6 +7,13 @@ return {
 		opts = {}
 	},
 	{
-		"williamboman/mason-lspconfig.nvim"
+		"williamboman/mason-lspconfig.nvim",
+		opts = {
+			handlers = {
+				function(server)
+					require('lspconfig')[server].setup({})
+				end,
+			},
+		}
 	}
 }

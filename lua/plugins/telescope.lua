@@ -6,7 +6,9 @@ return {
 			{"<leader>ff", "<cmd>Telescope find_files<CR>", desc = "Telescope [f]ind [f]ile"},
 			{"<leader>fg", "<cmd>Telescope live_grep<CR>", desc = "Telescope [f]ind [g]rep"},
 			{"<leader>fB", "<cmd>Telescope buffers<CR>", desc = "Telescope [f]ind [B]uffers"},
-			{"<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Telescope [f]ind [h]elp"}
+			{"<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "Telescope [f]ind [h]elp"},
+			{"<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "Telescope [f]ind [k]eymaps"},
+			{"<leader>fr", "<cmd>Telescope lsp_references<CR>", desc = "Telescope [f]ind [r]eferences"}
 		},
 		opts = {
 			extensions = {
