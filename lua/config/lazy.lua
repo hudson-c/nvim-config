@@ -22,7 +22,7 @@ vim.g.mapleader = ' '
 vim.g.maplocalleader = ','
 vim.g.have_nerd_font = true
 
-vim.keymap.set('n', '<leader>l', '<cmd>Lazy<CR>')
+vim.keymap.set('n', '<leader>L', '<cmd>Lazy<CR>')
 
 -- Setup lazy.nvim
 require("lazy").setup({
