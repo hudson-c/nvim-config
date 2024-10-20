@@ -29,83 +29,65 @@ return {
 				-- documentation = cmp.config.window.bordered(),
 			},
 			mapping = {
-			['<CR>'] = cmp.mapping(function(fallback)
-				if cmp.visible() then
-					if luasnip.expandable() then
-						luasnip.expand()
+				-- Use <C-n> and <C-p> to navigate through completion menu
+				["<C-n>"] = cmp.mapping.select_next_item({ behavior = cmp.SelectBehavior.Insert }),
+				["<C-p>"] = cmp.mapping.select_prev_item({ behavior = cmp.SelectBehavior.Insert }),
+
+				-- Enter key behavior: Confirm if an item is selected, do nothing if not
+				["<CR>"] = cmp.mapping(function(fallback)
+					if cmp.visible() and cmp.get_selected_entry() then
+						cmp.confirm({ behavior = cmp.ConfirmBehavior.Replace, select = false })
 					else
-						cmp.confirm({
-							select = true,
-						})
+						fallback() -- Do nothing if no item is selected
 					end
-				else
-					fallback()
-				end
-			end),
+				end, { "i", "s" }),
 
-			["<Tab>"] = cmp.mapping(function(fallback)
-				if cmp.visible() then
-					cmp.select_next_item()
-				elseif luasnip.locally_jumpable(1) then
-					luasnip.jump(1)
-				else
-					fallback()
-				end
-			end, { "i", "s" }),
-
-			["<S-Tab>"] = cmp.mapping(function(fallback)
-				if cmp.visible() then
-					cmp.select_prev_item()
-				elseif luasnip.locally_jumpable(-1) then
-					luasnip.jump(-1)
-				else
-					fallback()
-				end
-			end, { "i", "s" }),
-		},
-		sources = cmp.config.sources({
-			{ name = 'nvim_lsp' },
-			{ name = 'luasnip' },
-			{ name = 'conjure' }
-		}, {
-			{ name = 'buffer' },
+				-- Optional: Map <C-e> to close the completion menu
+				["<C-e>"] = cmp.mapping.abort(),
+			},
+			sources = cmp.config.sources({
+				{ name = 'nvim_lsp' },
+				{ name = 'luasnip' },
+				{ name = 'conjure' }
+			}, {
+				{ name = 'buffer' },
+			})
 		})
-	})
 
-	-- Set configuration for specific filetype.
-	cmp.setup.filetype('gitcommit', {
-		sources = cmp.config.sources({
-			{ name = 'git' },
-		}, {
-			{ name = 'buffer' },
+		-- Set configuration for specific filetype.
+		cmp.setup.filetype('gitcommit', {
+			sources = cmp.config.sources({
+				{ name = 'git' },
+			}, {
+				{ name = 'buffer' },
+			})
 		})
-	})
-	require("cmp_git").setup() 
+		require("cmp_git").setup() 
 
-	-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
-	cmp.setup.cmdline({ '/', '?' }, {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = {
-			{ name = 'buffer' }
+		-- Use buffer source for `/` and `?` (if you enabled `native_menu`, this won't work anymore).
+		cmp.setup.cmdline({ '/', '?' }, {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = {
+				{ name = 'buffer' }
+			}
+		})
+
+		-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
+		cmp.setup.cmdline(':', {
+			mapping = cmp.mapping.preset.cmdline(),
+			sources = cmp.config.sources({
+				{ name = 'path' }
+			}, {
+				{ name = 'cmdline' }
+			}),
+			matching = { disallow_symbol_nonprefix_matching = false }
+		})
+
+		-- Set up lspconfig.
+		local capabilities = require('cmp_nvim_lsp').default_capabilities()
+		-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
+		require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
+			capabilities = capabilities
 		}
-	})
-
-	-- Use cmdline & path source for ':' (if you enabled `native_menu`, this won't work anymore).
-	cmp.setup.cmdline(':', {
-		mapping = cmp.mapping.preset.cmdline(),
-		sources = cmp.config.sources({
-			{ name = 'path' }
-		}, {
-			{ name = 'cmdline' }
-		}),
-		matching = { disallow_symbol_nonprefix_matching = false }
-	})
-
-	-- Set up lspconfig.
-	local capabilities = require('cmp_nvim_lsp').default_capabilities()
-	-- Replace <YOUR_LSP_SERVER> with each lsp server you've enabled.
-	require('lspconfig')['<YOUR_LSP_SERVER>'].setup {
-		capabilities = capabilities
-	}
-end,
+	end,
 }
