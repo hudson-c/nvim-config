@@ -9,7 +9,8 @@ return {
 			{"<leader>fm", "<cmd>Telescope marks<CR>", desc = "marks"},
 			{"<leader>fh", "<cmd>Telescope help_tags<CR>", desc = "help"},
 			{"<leader>fk", "<cmd>Telescope keymaps<CR>", desc = "keymaps"},
-			{"<leader>fc", "<cmd>Telescope colorscheme<CR>", desc = "colorschemes"}
+			{"<leader>fc", "<cmd>Telescope colorscheme<CR>", desc = "colorschemes"},
+			{"<leader>fr", "<cmd>Telescope lsp_references<CR>", desc = "references"}
 		},
 		opts = {
 			extensions = {

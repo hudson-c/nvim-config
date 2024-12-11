@@ -3,6 +3,7 @@ vim.opt.shiftwidth = 2
 vim.opt.pumheight = 5
 vim.cmd 'colorscheme kanagawa'
 
+vim.opt.number = true
 vim.opt.relativenumber = true
 vim.opt.showmode = false
 vim.opt.breakindent = true
@@ -16,6 +17,7 @@ vim.opt.scrolloff = 10
 
 vim.diagnostic.config({ signs = false })
 
+vim.g.have_nerd_font = true
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 vim.opt.clipboard = "unnamedplus"
